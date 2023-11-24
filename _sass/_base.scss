@@ -167,9 +167,9 @@ blockquote {
   .more-info {
     margin-bottom: 5px;
     margin-top: 5px;
-    font-family: monospace;
 
     p {
+      font-size: 1rem;
       display: inline-block;
       margin: 0;
     }
@@ -349,10 +349,11 @@ blockquote {
 // Social (bottom)
 
 .social {
+  padding-top: 20px;
   text-align: center;
 
   .contact-icons {
-    font-size: 4rem;
+    font-size: 2rem;
 
     a {
       i::before {
