@@ -2,96 +2,68 @@
   type: map
   contents:
     - name: Full Name
-      value: Albert Einstein
+      value: Seo Kangmin
     - name: Date of Birth
-      value: 14th March 1879
+      value: June 13th, 2000
     - name: Languages
-      value: English, German
+      value: Korean, English
+    - name: PLs
+      value: Python, C++, Javascript, Java
+    - name: Frameworks/Tools
+      value: PyTorch, FastAPI, Android, Unreal Engine, django, Flask 
 
 - title: Education
   type: time_table
   contents:
-    - title: PhD
-      institution: University of Zurich, Zurich, Switzerland
-      year: 1905
+    - title: Bachelor's degree
+      institution: Sungkyunkwan University, Suwon, Korea
+      year: 2019 - PRESENT
       description:
-        - Description 1.
-        - Description 2.
-        - title: Description 3.
-          contents:
-            - Sub-description 1.
-            - Sub-description 2.
-    - title: Federal teaching diploma
-      institution: Eidgenössische Technische Hochschule, Zurich, Switzerland
-      year: 1900
-      description:
-        - Description 1.
-        - Description 2.
+        - Majored in Computer Science and Engineering
 
 - title: Experience
   type: time_table
   contents:
-    - title: Professor of Theoretical Physics
-      institution: Institute for Advanced Study, Princeton University
-      year: 1933 - 1955
+    - title: Research/Software Enginnering Intern
+      department: RideFlux - Perception Unit
+      year: 2023
       description:
-        - Description 1.
-        - Description 2.
-        - title: Description 3.
-          contents:
-            - Sub-description 1.
-            - Sub-description 2.
-    - title: Visiting Professor
-      institution: California Institute of Technology, Pasadena, California, US
-      year: 1933
+        - Proof of Concept for Object Tracking Based on Image Sequences
+        - Developed a method to prevent performance degradation caused by motion blur due to vehicle movement
+
+    - title: University-Industry Cooperative Project
+      department: Sungkyunkwan University & SK Planet
+      year: 2021
       description:
-        - Description 1.
-        - Description 2.
+        - Developed an interactive AR app for 2020 Busan One Asia Festival using Android ARCore and YOLOv4
+        - Researched indoor positioning using Wi-Fi data; built a React Native app and Node.js server for machine learning
 
-    - title: Director
-      institution: Kaiser Wilhelm Institute for Physics, Berlin, Germany.
-      year: 1917-1933
-
-    - title: Professor of Theoretical Physics
-      institution: Karl-Ferdinand University, Prague, Czechoslovakia
-      year: 1911 - 1917
-      description:
-
-    - title: Associate Professor of Theoretical Physics
-      institution: University of Zurich, Zurich, Switzerland
-      year: 1909 - 1911
-
-- title: Open Source Projects
+- title: Awards and Certificates
   type: time_table
   contents:
-    - title: <a href="https://github.com/alshedivat/al-folio">al-folio</a>
-      year: 2015-now
-      description: A beautiful, simple, clean, and responsive Jekyll theme for academics.
-
-- title: Honors and Awards
-  type: time_table
-  contents:
-    - year: 1921
-      items: 
-        - Nobel Prize in Physics 
-        - Matteucci Medal
-    - year: 2029
-      items: 
-        - Max Planck Medal
-
-- title: Academic Interests
-  type: nested_list
-  contents:
-    - title: Topic 1.
-      items: 
-        - Description 1.
-        - Description 2.
-    - title: Topic 2.
+    - year: 2015
       items:
-        - Description 1.
-        - Description 2.
+        - 정보처리기능사
+    - year: 2022
+      items: 
+        - 제 1회 국방AI경진대회(MAICON) - 일반인 부문 최우수상(과학기술정보통신부 장관상)
+    - year: 2023
+      items: 
+        - 제 3회 대학 연합 해커톤 Uni-DTHON - 데이터톤 트랙 은상
 
-- title: Other Interests
-  type: list
-  contents:
-    - <u>Hobbies:</u> Hobby 1, Hobby 2, etc.
+# - title: Academic Interests
+#   type: nested_list
+#   contents:
+#     - title: Topic 1.
+#       items: 
+#         - Description 1.
+#         - Description 2.
+#     - title: Topic 2.
+#       items:
+#         - Description 1.
+#         - Description 2.
+
+# - title: Other Interests
+#   type: list
+#   contents:
+#     - <u>Hobbies:</u> Hobby 1, Hobby 2, etc.
