@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kangmin Seo</title>
+    <style>
+        :root {
+            --text-primary: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --accent-color: #0071e3;
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.03);
+            --blur-amount: 25px;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --border-radius: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: var(--font-family);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            padding: 60px 20px;
+            position: relative;
+            background-color: #f5f5f7;
+        }
+
+        .background-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(at 10% 10%, rgba(162, 169, 255, 0.35) 0px, transparent 50%),
+                radial-gradient(at 90% 10%, rgba(224, 187, 255, 0.35) 0px, transparent 50%),
+                radial-gradient(at 90% 90%, rgba(186, 230, 253, 0.35) 0px, transparent 50%),
+                radial-gradient(at 10% 90%, rgba(255, 209, 237, 0.35) 0px, transparent 50%);
+            filter: blur(60px);
+            animation: bgShift 15s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgShift {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            opacity: 0; 
+            transform: translateY(20px);
+            transition: opacity 1s ease-out, transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        header.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .profile-img-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 25px;
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 4px solid rgba(255, 255, 255, 0.9);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.8px;
+            color: #111;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .contact-info a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .contact-info a:hover {
+            color: var(--accent-color);
+        }
+        
+        .contact-info a::after {
+            content: "↗";
+            font-size: 0.8em;
+        }
+        
+        .contact-info a[href^="mailto"]::after {
+            content: "";
+        }
+
+        /* --- Bio Section Styles --- */
+        .bio-intro {
+            margin-top: 24px;
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: #444;
+            font-weight: 400;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .bio-highlight {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur-amount));
+            -webkit-backdrop-filter: blur(var(--blur-amount));
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            margin-bottom: 30px;
+            
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #111;
+            letter-spacing: -0.5px;
+        }
+
+        .item {
+            margin-bottom: 32px;
+        }
+
+        .item:last-child {
+            margin-bottom: 0;
+        }
+
+        .item-flex {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .inst-logo {
+            width: 54px;
+            height: 54px;
+            border-radius: 12px;
+            object-fit: contain;
+            background-color: #fff;
+            border: 1px solid rgba(0,0,0,0.06);
+            flex-shrink: 0;
+            padding: 4px;
+        }
+
+        .item-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 4px;
+        }
+
+        .item-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #111;
+            line-height: 1.4;
+        }
+
+        .item-subtitle {
+            font-weight: 500;
+            color: #555;
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+
+        /* --- Inline Link Styles --- */
+        .inline-link {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+        .inline-link:hover {
+            color: var(--accent-color);
+        }
+        .inline-link::after {
+            content: "↗";
+            font-size: 0.8em;
+            margin-top: -1px;
+        }
+
+        .item-date {
+            font-size: 0.85rem;
+            color: #777;
+            font-weight: 600;
+            white-space: nowrap;
+            margin-left: 15px;
+            background: rgba(0,0,0,0.04);
+            padding: 4px 10px;
+            border-radius: 8px;
+            align-self: flex-start;
+        }
+
+        .item-desc {
+            font-size: 0.95rem;
+            color: #444;
+            margin-top: 8px;
+            line-height: 1.7;
+        }
+
+        .item-desc ul {
+            padding-left: 20px;
+        }
+
+        .item-desc li {
+            margin-bottom: 6px;
+            padding-left: 5px;
+        }
+        
+        .item-desc li::marker {
+            color: var(--accent-color);
+            font-size: 0.9em;
+        }
+
+        .pub-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 6px;
+        }
+
+        .pub-title {
+            font-weight: 700;
+            color: #111;
+            font-size: 1.05rem;
+            line-height: 1.45;
+            flex: 1;
+        }
+        
+        .pub-authors {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 4px;
+        }
+
+        .pub-venue {
+            font-size: 0.9rem;
+            color: #86868b;
+            font-style: italic;
+        }
+
+        .tag {
+            flex-shrink: 0;
+            display: inline-block;
+            background: rgba(0, 113, 227, 0.08);
+            color: var(--accent-color);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            white-space: nowrap;
+            margin-top: 2px;
+        }
+
+        .highlight-author {
+            font-weight: 700;
+            color: #000;
+            border-bottom: 2px solid rgba(0, 113, 227, 0.4);
+        }
+
+        .award-list {
+            list-style: none;
+        }
+        .award-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+            align-items: center;
+            border-bottom: 1px dashed rgba(0,0,0,0.05);
+            padding-bottom: 12px;
+        }
+        .award-item:last-child {
+            border-bottom: none;
+        }
+        .award-name {
+            font-weight: 600;
+            color: #222;
+        }
+        .award-detail {
+            color: #666;
+            margin-left: 6px;
+            font-size: 0.9rem;
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .skill-pill {
+            background-color: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 1);
+            padding: 10px 18px;
+            border-radius: 24px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 80px;
+            font-size: 0.85rem;
+            color: #999;
+            padding-bottom: 40px;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 40px 15px; }
+            section { padding: 25px; }
+            header h1 { font-size: 2rem; }
+            
+            .item-header { flex-direction: column; }
+            .item-date { 
+                margin-left: 0; 
+                margin-top: 6px; 
+                display: inline-block; 
+            }
+            
+            .award-item { flex-direction: column; align-items: flex-start; gap: 4px; }
+            .award-detail { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="background-gradient"></div>
+
+<div class="container">
+    
+    <header id="main-header">
+        <div class="profile-img-container">
+            <img src="https://media.licdn.com/dms/image/v2/D5603AQH3Wps6_hjeKA/profile-displayphoto-crop_800_800/B56ZksCdR6HcAI-/0/1757380466278?e=1767830400&v=beta&t=yKUtYMyQNE0OXLgh1FxFzvDj63JUAs1uPbnQFpDqCYQ" 
+                 alt="Kangmin Seo" 
+                 class="profile-img">
+        </div>
+
+        <h1>Kangmin Seo</h1>
+        
+        <div class="contact-info">
+            <span>Suwon, South Korea</span>
+            <span>•</span>
+            <a href="mailto:kangrnin@gmail.com">kangrnin@gmail.com</a>
+            <span>•</span>
+            <a href="https://www.linkedin.com/in/kangmin-seo" target="_blank">LinkedIn</a>
+            <span>•</span>
+            <a href="https://github.com/kangrnin" target="_blank">GitHub</a>
+        </div>
+        <div class="bio-intro">
+            M.S. Candidate at <a href="https://sites.google.com/site/vclabskku" target="_blank" class="inline-link">Visual Computing Lab @ SKKU</a>,<br>
+            Focusing on <span class="bio-highlight">Efficient and Robust 3D Representations</span>.
+        </div>
+    </header>
+
+    <section>
+        <h2>Publications & Manuscripts</h2>
+        
+        <div class="item">
+            <div class="pub-row">
+                <span class="pub-title">Diffusion Feature Field for Text-based 3D Editing with Gaussian Splatting</span>
+                <span class="tag">Published</span>
+            </div>
+            <div class="pub-authors">
+                Eunseo Koh, Sangeek Hyun, MinKyu Lee, Jiwoo Chung, <span class="highlight-author">Kangmin Seo</span>, Jae-Pil Heo
+            </div>
+            <div class="pub-venue">Neural Information Processing Systems (NeurIPS), 2025</div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Education</h2>
+        
+        <div class="item">
+            <div class="item-flex">
+                <img src="https://media.licdn.com/dms/image/v2/C510BAQH9AIgSW2OIGA/company-logo_100_100/company-logo_100_100/0/1631378079166?e=1767830400&v=beta&t=sQ2aY5Lij2xqrR_LRfvGo6Wa_LuH9b9fY6bDvqS67g4" 
+                     alt="SKKU Logo" class="inst-logo">
+                <div class="item-content">
+                    <div class="item-header">
+                        <span class="item-title">Sungkyunkwan University (SKKU)</span>
+                        <span class="item-date">Sep. 2025 – Present</span>
+                    </div>
+                    <div class="item-subtitle">
+                        M.S. Candidate in Software<br>
+                        At <a href="https://sites.google.com/site/vclabskku" target="_blank" class="inline-link">Visual Computing Lab (VCLab)</a>, Advisor: <a href="https://sites.google.com/site/jaepilheo" target="_blank" class="inline-link">Prof. Jae-Pil Heo</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="item-flex">
+                <img src="https://media.licdn.com/dms/image/v2/C510BAQH9AIgSW2OIGA/company-logo_100_100/company-logo_100_100/0/1631378079166?e=1767830400&v=beta&t=sQ2aY5Lij2xqrR_LRfvGo6Wa_LuH9b9fY6bDvqS67g4" 
+                     alt="SKKU Logo" class="inst-logo">
+                <div class="item-content">
+                    <div class="item-header">
+                        <span class="item-title">Sungkyunkwan University (SKKU)</span>
+                        <span class="item-date">Mar. 2019 – Aug. 2025</span>
+                    </div>
+                    <div class="item-subtitle">B.S. in Software</div>
+                    <div class="item-desc">
+                        GPA: 4.22 / 4.5 (Major: 4.37 / 4.5), Magna Cum Laude (Top 2.9%)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="item-flex">
+                <img src="https://i.namu.wiki/i/sgED0gKwOeSEijLmO0ZrMrNEyUc-VR7l8qWqP2IH2-arz-GeOUTnyOoFSobCW1FTMkxJolBBuf4Wrd5VDszKeA.webp" 
+                     alt="Dimigo Logo" class="inst-logo">
+                <div class="item-content">
+                    <div class="item-header">
+                        <span class="item-title">Korea Digital Media High School</span>
+                        <span class="item-date">Mar. 2016 – Feb. 2019</span>
+                    </div>
+                    <div class="item-subtitle">Hacking Defense Department</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Experience</h2>
+
+        <div class="item">
+            <div class="item-flex">
+                <img src="https://media.licdn.com/dms/image/v2/C510BAQH9AIgSW2OIGA/company-logo_100_100/company-logo_100_100/0/1631378079166?e=1767830400&v=beta&t=sQ2aY5Lij2xqrR_LRfvGo6Wa_LuH9b9fY6bDvqS67g4" 
+                     alt="SKKU Logo" class="inst-logo">
+                <div class="item-content">
+                    <div class="item-header">
+                        <span class="item-title">Visual Computing Lab (VCLab) @ SKKU</span>
+                        <span class="item-date">Dec. 2024 – Present</span>
+                    </div>
+                    <div class="item-subtitle">
+                        M.S. Candidate (Advisor: <a href="https://sites.google.com/site/jaepilheo" target="_blank" class="inline-link">Prof. Jae-Pil Heo</a>) | Suwon, Korea
+                    </div>
+                    <div class="item-desc">
+                        <ul>
+                            <li>Specializing in 3D Computer Vision, with a focus on improving the efficiency and robustness of 3D Gaussian Splatting (3DGS).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="item-flex">
+                <img src="https://media.licdn.com/dms/image/v2/D560BAQH3lOPH-h1Hew/company-logo_100_100/company-logo_100_100/0/1734401187907/_kaist__logo?e=1767830400&v=beta&t=LKSYCVThjtSl8GHI5Cm6OGve76j9Jti8Jdf2xaX9K0k" 
+                     alt="KAIST Logo" class="inst-logo">
+                <div class="item-content">
+                    <div class="item-header">
+                        <span class="item-title">Machine Learning and Intelligence Lab @ KAIST</span>
+                        <span class="item-date">Jan. 2024 – Sep. 2024</span>
+                    </div>
+                    <div class="item-subtitle">Research Intern | Seoul, Korea (Remote)</div>
+                    <div class="item-desc">
+                        <ul>
+                            <li>Conducted experiments for an LLM-based patient interview service project.</li>
+                            <li>Explored research ideas in LLMs, focusing on efficiency (offloading) and reasoning (test-time scaling)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="item-flex">
+                <img src="https://media.licdn.com/dms/image/v2/D560BAQFoobmlkgDikw/company-logo_100_100/company-logo_100_100/0/1705459092157/rideflux_logo?e=1767830400&v=beta&t=l7eC0_Ep0Xi56h2KrM56J7nZ-O1ptZ4VrQ9WtkxWfhc" 
+                     alt="RideFlux Logo" class="inst-logo">
+                <div class="item-content">
+                    <div class="item-header">
+                        <span class="item-title">RideFlux Inc.</span>
+                        <span class="item-date">June 2023 – Aug. 2023</span>
+                    </div>
+                    <div class="item-subtitle">Perception SW Engineer Intern | Seoul, Korea</div>
+                    <div class="item-desc">
+                        <ul>
+                            <li>Developed a video-based object tracking PoC for autonomous vehicles (Center Track).</li>
+                            <li>Improved robustness against motion blur during vehicle rotation via adaptive thresholding.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="item-flex">
+                <img src="https://media.licdn.com/dms/image/v2/D560BAQHjEYOY2HjZqA/company-logo_100_100/company-logo_100_100/0/1719130006364?e=1767830400&v=beta&t=ZxZDMJFfYzd6vp79-ZyAT0TvZRG9raoMVzETMOJ5gpI" 
+                     alt="Air Force Logo" class="inst-logo">
+                <div class="item-content">
+                    <div class="item-header">
+                        <span class="item-title">Republic of Korea Air Force</span>
+                        <span class="item-date">May 2021 – Dec. 2022</span>
+                    </div>
+                    <div class="item-subtitle">3D/VR System Engineer (Military Service) | Daejeon, Korea</div>
+                    <div class="item-desc">
+                        <ul>
+                            <li>Developed a high-fidelity VR flight training simulator for pilot education using Unreal Engine.</li>
+                            <li>Implemented complex avionics logic, motion tracking interfaces, and multiplayer synchronization.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Selected Projects</h2>
+
+        <div class="item">
+            <div class="item-header">
+                <span class="item-title">RealBang: 3D Room Generation AI & Viewer</span>
+                <span class="item-date">Mar. 2023 – Jan. 2024</span>
+            </div>
+            <div class="item-subtitle">Python, PyTorch, 3DGS, NeRF</div>
+            <div class="item-desc">
+                <ul>
+                    <li>Developed a pipeline to reconstruct 3D room geometry from smartphone videos using NeRF and 3DGS.</li>
+                    <li>Addressed distortion issues of 2D real estate photos by providing immersive 360-degree 3D views.</li>
+                    <li>Implemented a client-side viewer for seamless exploration of reconstructed 3D scenes.</li>
+                    <li><strong>Awarded Grand Prize (President’s Award)</strong> at SKKU Co-Deep Learning Project.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="item-header">
+                <span class="item-title">AR Experience App for Busan One Asia Festival</span>
+                <span class="item-date">Apr. 2020 – Feb. 2021</span>
+            </div>
+            <div class="item-subtitle">Android, ARCore, YOLOv4</div>
+            <div class="item-desc">
+                <ul>
+                    <li>Developed an interactive AR content app using Android ARCore and YOLOv4 object detection.</li>
+                    <li>Researched indoor localization using Wi-Fi fingerprinting and ML models.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Honors & Awards</h2>
+        
+        <div style="margin-bottom: 30px;">
+            <div class="item-title" style="margin-bottom: 15px; font-size: 1.05rem;">Scholarships</div>
+            <ul class="award-list">
+                <li class="award-item">
+                    <span>
+                        <span class="award-name">Graduate Merit Scholarship</span>
+                        <span class="award-detail">(Full Tuition)</span>
+                    </span>
+                    <span class="award-date">Fall 2025 – Present</span>
+                </li>
+                <li class="award-item">
+                    <span>
+                        <span class="award-name">Student Success Scholarship</span>
+                        <span class="award-detail">(Merit Grant)</span>
+                    </span>
+                    <span class="award-date">Spring 2025</span>
+                </li>
+                <li class="award-item">
+                    <span>
+                        <span class="award-name">Academic Excellence Scholarship</span>
+                        <span class="award-detail">(Full Tuition)</span>
+                    </span>
+                    <span class="award-date">Fall 2023</span>
+                </li>
+                <li class="award-item">
+                    <span>
+                        <span class="award-name">Sungkyun Software Scholarship</span>
+                        <span class="award-detail">(Half Tuition)</span>
+                    </span>
+                    <span class="award-date">Spring 2019 – Fall 2020</span>
+                </li>
+            </ul>
+        </div>
+
+        <div>
+            <div class="item-title" style="margin-bottom: 15px; font-size: 1.05rem;">Awards</div>
+            <ul class="award-list">
+                <li class="award-item">
+                    <span>
+                        <span class="award-name">2024 SKKU Programming Contest</span>
+                        <span class="award-detail">– Bronze Prize</span>
+                    </span>
+                    <span class="award-date">Nov. 2024</span>
+                </li>
+                <li class="award-item">
+                    <span>
+                        <span class="award-name">SKKU Co-Deep Learning Project</span>
+                        <span class="award-detail">– Grand Prize (President's Award)</span>
+                    </span>
+                    <span class="award-date">Jan. 2024</span>
+                </li>
+                <li class="award-item">
+                    <span>
+                        <span class="award-name">3rd University Alliance Hackathon (Uni-DTHON)</span>
+                        <span class="award-detail">– Silver Prize</span>
+                    </span>
+                    <span class="award-date">Nov. 2023</span>
+                </li>
+                <li class="award-item">
+                    <span>
+                        <span class="award-name">2023 SKKU Programming Contest</span>
+                        <span class="award-detail">– Bronze Prize</span>
+                    </span>
+                    <span class="award-date">Mar. 2023</span>
+                </li>
+                <li class="award-item">
+                    <span>
+                        <span class="award-name">2022 Military AI Contest (MAICON)</span>
+                        <span class="award-detail">– Grand Prize (Minister of Science and ICT Award)</span>
+                    </span>
+                    <span class="award-date">Nov. 2022</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2>Skills</h2>
+        <div class="skills-container">
+            <span class="skill-pill">PyTorch</span>
+            <span class="skill-pill">Unreal Engine</span>
+            <span class="skill-pill">Unity</span>
+            <span class="skill-pill">Python</span>
+            <span class="skill-pill">C++</span>
+            <span class="skill-pill">3D Gaussian Splatting</span>
+            <span class="skill-pill">NeRF</span>
+            <span class="skill-pill">Full-Stack Web</span>
+            <span class="skill-pill">Figma</span>
+            <span class="skill-pill">Korean (Native)</span>
+            <span class="skill-pill">English (Proficient)</span>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2025 Kangmin Seo. All rights reserved.
+    </footer>
+
+</div>
+
+<script>
+    if (history.scrollRestoration) {
+        history.scrollRestoration = 'manual';
+    }
+
+    window.onload = function() {
+        window.scrollTo(0, 0);
+        
+        setTimeout(() => {
+            const header = document.getElementById('main-header');
+            header.classList.add('loaded');
+            
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        }, 100);
+    };
+</script>
+
+</body>
+</html>
