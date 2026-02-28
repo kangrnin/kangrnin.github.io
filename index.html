@@ -5,64 +5,216 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kangmin Seo</title>
     <style>
-        :root {
-            --text-primary: #1d1d1f;
-            --text-secondary: #6e6e73;
-            --accent-color: #0071e3;
-            --glass-bg: rgba(255, 255, 255, 0.65);
-            --glass-border: rgba(255, 255, 255, 0.6);
-            --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.03);
-            --blur-amount: 25px;
-            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            --border-radius: 24px;
+        @property --prism-angle {
+            syntax: "<angle>";
+            inherits: false;
+            initial-value: 0deg;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg-color: #f8f7f5;
+            --text-primary: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --text-heading: #111;
+            --text-muted: #777;
+            --text-subtle: #86868b;
+            --accent-color: #0071e3;
+            --glass-bg: rgba(252, 250, 247, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.65);
+            --glass-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.04);
+            --border-radius: 24px;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --logo-bg: #fff;
+            --logo-border: rgba(0, 0, 0, 0.06);
+            --date-bg: rgba(0, 0, 0, 0.04);
+            --date-color: #777;
+            --award-border: rgba(0, 0, 0, 0.05);
+            --highlight-border: rgba(0, 113, 227, 0.4);
+            --toggle-bg: rgba(255, 255, 255, 0.7);
+            --toggle-border: rgba(0, 0, 0, 0.08);
+            --toggle-color: #555;
+            /* aurora gradient colors – light */
+            --aurora-1: hsla(30, 65%, 75%, 0.38);
+            --aurora-2: hsla(15, 60%, 72%, 0.34);
+            --aurora-3: hsla(340, 50%, 74%, 0.32);
+            --aurora-4: hsla(45, 55%, 78%, 0.30);
+            --aurora-5: hsla(10, 55%, 70%, 0.28);
+            --aurora-6: hsla(320, 45%, 76%, 0.26);
+            --aurora-7: hsla(50, 50%, 80%, 0.26);
+            --aurora-8: hsla(0, 45%, 73%, 0.24);
         }
+
+        html.dark {
+            --bg-color: #08080f;
+            --text-primary: #e8e8f0;
+            --text-secondary: #8888a8;
+            --text-heading: #f2f2f8;
+            --text-muted: #686880;
+            --text-subtle: #606078;
+            --accent-color: #5aabff;
+            --glass-bg: rgba(16, 16, 28, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.09);
+            --glass-shadow: 0 4px 28px 0 rgba(0, 0, 0, 0.35);
+            --logo-bg: rgba(255, 255, 255, 0.12);
+            --logo-border: rgba(255, 255, 255, 0.15);
+            --date-bg: rgba(255, 255, 255, 0.07);
+            --date-color: #7878a0;
+            --award-border: rgba(255, 255, 255, 0.06);
+            --highlight-border: rgba(90, 171, 255, 0.5);
+            --toggle-bg: rgba(30, 30, 50, 0.8);
+            --toggle-border: rgba(255, 255, 255, 0.1);
+            --toggle-color: #aaaacc;
+            /* aurora gradient colors – dark */
+            --aurora-1: hsla(225, 100%, 65%, 0.84);
+            --aurora-2: hsla(280, 85%, 68%, 0.76);
+            --aurora-3: hsla(200, 100%, 61%, 0.69);
+            --aurora-4: hsla(260, 88%, 63%, 0.66);
+            --aurora-5: hsla(215, 100%, 58%, 0.62);
+            --aurora-6: hsla(290, 84%, 71%, 0.54);
+            --aurora-7: hsla(240, 90%, 65%, 0.59);
+            --aurora-8: hsla(190, 100%, 59%, 0.49);
+        }
+
+        html {
+            font-size: 15px;
+            background-color: var(--bg-color);
+            transition: background-color 0.4s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         html, body {
             width: 100%;
             height: 100%;
-            margin: 0;
-            padding: 0;
             overflow-x: hidden;
         }
 
         body {
             font-family: var(--font-family);
             color: var(--text-primary);
+            background-color: transparent;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             padding: 60px 20px;
             position: relative;
-            background-color: #f5f5f7;
+            transition: color 0.4s ease;
         }
 
-        .background-gradient {
+        /* ── Aurora Mesh Background ── */
+        .aurora {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             z-index: -1;
-            background: 
-                radial-gradient(at 10% 10%, rgba(162, 169, 255, 0.35) 0px, transparent 50%),
-                radial-gradient(at 90% 10%, rgba(224, 187, 255, 0.35) 0px, transparent 50%),
-                radial-gradient(at 90% 90%, rgba(186, 230, 253, 0.35) 0px, transparent 50%),
-                radial-gradient(at 10% 90%, rgba(255, 209, 237, 0.35) 0px, transparent 50%);
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .aurora::before,
+        .aurora::after,
+        .aurora-layer {
+            position: absolute;
+            inset: -50%;
+            width: 200%;
+            height: 200%;
+            background-repeat: no-repeat;
             filter: blur(60px);
-            animation: bgShift 15s ease-in-out infinite alternate;
+            mix-blend-mode: screen;
+            will-change: transform;
+        }
+        .aurora::before,
+        .aurora::after {
+            content: '';
+        }
+        /* Layer 1 – blue core + violet wing */
+        .aurora::before {
+            background-image:
+                radial-gradient(ellipse 45% 35% at 35% 22%, var(--aurora-1) 0%, transparent 70%),
+                radial-gradient(ellipse 30% 50% at 65% 18%, var(--aurora-2) 0%, transparent 65%),
+                radial-gradient(ellipse 55% 25% at 50% 35%, var(--aurora-3) 0%, transparent 55%);
+            animation: aurora-drift-1 55s ease-in-out infinite;
+        }
+        /* Layer 2 – scattered accents */
+        .aurora::after {
+            background-image:
+                radial-gradient(ellipse 35% 45% at 55% 25%, var(--aurora-4) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 30% at 22% 32%, var(--aurora-5) 0%, transparent 55%),
+                radial-gradient(ellipse 28% 40% at 78% 28%, var(--aurora-6) 0%, transparent 50%);
+            filter: blur(50px);
+            animation: aurora-drift-2 68s ease-in-out infinite;
+        }
+        /* Layer 3 – tight highlights */
+        .aurora-layer {
+            background-image:
+                radial-gradient(ellipse 40% 25% at 42% 28%, var(--aurora-7) 0%, transparent 55%),
+                radial-gradient(ellipse 25% 40% at 70% 20%, var(--aurora-8) 0%, transparent 50%);
+            filter: blur(45px);
+            animation: aurora-drift-3 76s ease-in-out infinite;
+        }
+        /* Bottom fade – darkens lower portion */
+        .aurora-fade {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 30%, var(--bg-color) 85%);
+            pointer-events: none;
+            z-index: 1;
         }
 
-        @keyframes bgShift {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.1); }
+        @keyframes aurora-drift-1 {
+            0%   { transform: translate(0%, 0%) rotate(0deg) scale(1); }
+            20%  { transform: translate(8%, -7%) rotate(4deg) scale(1.03); }
+            40%  { transform: translate(-5%, 9%) rotate(-3deg) scale(0.97); }
+            60%  { transform: translate(-9%, -5%) rotate(5deg) scale(1.04); }
+            80%  { transform: translate(6%, 7%) rotate(-4deg) scale(0.98); }
+            100% { transform: translate(0%, 0%) rotate(0deg) scale(1); }
+        }
+        @keyframes aurora-drift-2 {
+            0%   { transform: translate(0%, 0%) rotate(0deg) scale(1); }
+            20%  { transform: translate(-7%, 8%) rotate(-5deg) scale(1.04); }
+            40%  { transform: translate(8%, -6%) rotate(4deg) scale(0.96); }
+            60%  { transform: translate(6%, 7%) rotate(-3deg) scale(1.02); }
+            80%  { transform: translate(-8%, -7%) rotate(5deg) scale(1.03); }
+            100% { transform: translate(0%, 0%) rotate(0deg) scale(1); }
+        }
+        @keyframes aurora-drift-3 {
+            0%   { transform: translate(0%, 0%) rotate(0deg) scale(1); }
+            20%  { transform: translate(6%, 8%) rotate(3deg) scale(1.05); }
+            40%  { transform: translate(-8%, -5%) rotate(-5deg) scale(0.97); }
+            60%  { transform: translate(7%, -8%) rotate(4deg) scale(1.03); }
+            80%  { transform: translate(-6%, 6%) rotate(-3deg) scale(0.98); }
+            100% { transform: translate(0%, 0%) rotate(0deg) scale(1); }
         }
 
+        /* ── Toggle Button ── */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 28px;
+            z-index: 100;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--toggle-border);
+            background: var(--toggle-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--toggle-color);
+            transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+        .theme-toggle:hover { transform: scale(1.1); }
+        .theme-toggle svg { width: 18px; height: 18px; fill: currentColor; }
+        .icon-sun { stroke: currentColor; }
+        .icon-moon { display: none; }
+        html.dark .icon-sun  { display: none; }
+        html.dark .icon-moon { display: block; }
+
+        /* ── Layout ── */
         .container {
+            display: grid;
+            gap: 30px;
             max-width: 760px;
             margin: 0 auto;
             position: relative;
@@ -71,38 +223,33 @@
 
         header {
             text-align: center;
-            margin-bottom: 60px;
-            opacity: 0; 
+            margin-bottom: 14px;
+            opacity: 0;
             transform: translateY(20px);
             transition: opacity 1s ease-out, transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
-
-        header.loaded {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        header.loaded { opacity: 1; transform: translateY(0); }
 
         .profile-img-container {
             position: relative;
             display: inline-block;
-            margin-bottom: 25px;
+            margin-bottom: 14px;
         }
-
         .profile-img {
             width: 150px;
             height: 150px;
             border-radius: 50%;
             object-fit: cover;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            border: 4px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 4px solid rgba(255, 255, 255, 0.85);
         }
 
         header h1 {
             font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 12px;
+            margin-bottom: 9px;
             letter-spacing: -0.8px;
-            color: #111;
+            color: var(--text-heading);
         }
 
         .contact-info {
@@ -111,107 +258,141 @@
             gap: 18px;
             flex-wrap: wrap;
             font-size: 0.95rem;
-            color: var(--text-secondary);
+            color: var(--text-primary);
             font-weight: 500;
         }
-
         .contact-info a {
-            color: var(--text-secondary);
+            color: var(--text-primary);
             text-decoration: none;
             transition: color 0.2s ease;
-            position: relative;
             display: inline-flex;
             align-items: center;
             gap: 4px;
         }
+        .contact-info a:hover { color: var(--accent-color); }
+        .contact-info a::after { content: "↗"; font-size: 0.8em; }
+        .contact-info a[href^="mailto"]::after { content: ""; }
 
-        .contact-info a:hover {
-            color: var(--accent-color);
-        }
-        
-        .contact-info a::after {
-            content: "↗";
-            font-size: 0.8em;
-        }
-        
-        .contact-info a[href^="mailto"]::after {
-            content: "";
-        }
-
-        /* --- Bio Section Styles --- */
         .bio-intro {
             margin-top: 24px;
             font-size: 1.15rem;
             line-height: 1.6;
-            color: #444;
+            color: var(--text-primary);
             font-weight: 400;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
         }
-
-        .bio-highlight {
-            color: var(--accent-color);
-            font-weight: 600;
-        }
+        .bio-highlight { color: var(--accent-color); font-weight: 600; }
 
         section {
             background: var(--glass-bg);
-            backdrop-filter: blur(var(--blur-amount));
-            -webkit-backdrop-filter: blur(var(--blur-amount));
+            backdrop-filter: blur(36px) saturate(200%) brightness(1.05);
+            -webkit-backdrop-filter: blur(36px) saturate(200%) brightness(1.05);
             border: 1px solid var(--glass-border);
-            box-shadow: var(--glass-shadow);
+            box-shadow:
+                var(--glass-shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.7),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.15),
+                inset 1px 0 0 rgba(255, 255, 255, 0.25),
+                inset -1px 0 0 rgba(255, 255, 255, 0.25),
+                0 0 0 0.5px rgba(255, 255, 255, 0.35),
+                0 8px 32px rgba(0, 0, 0, 0.06);
             border-radius: var(--border-radius);
-            padding: 40px;
-            margin-bottom: 30px;
-            
+            padding: 28px 40px 40px;
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
+                        background 0.4s ease, border-color 0.4s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        section.visible {
-            opacity: 1;
-            transform: translateY(0);
+        /* Prismatic edge border — light diffracting along glass edge */
+        section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--border-radius);
+            background: conic-gradient(
+                from var(--prism-angle),
+                hsla(210, 80%, 72%, 0.5) 0deg,
+                hsla(250, 70%, 75%, 0.4) 60deg,
+                hsla(300, 50%, 72%, 0.3) 120deg,
+                hsla(210, 60%, 68%, 0.2) 180deg,
+                hsla(180, 70%, 70%, 0.3) 240deg,
+                hsla(230, 80%, 74%, 0.4) 300deg,
+                hsla(210, 80%, 72%, 0.5) 360deg
+            );
+            mask:
+                linear-gradient(#000, #000) content-box,
+                linear-gradient(#000, #000) border-box;
+            -webkit-mask:
+                linear-gradient(#000, #000) content-box,
+                linear-gradient(#000, #000) border-box;
+            mask-composite: exclude;
+            -webkit-mask-composite: xor;
+            padding: 1px;
+            animation: prism-rotate 14s linear infinite;
+            pointer-events: none;
         }
+        html.dark section {
+            backdrop-filter: blur(36px) saturate(200%) brightness(0.95);
+            -webkit-backdrop-filter: blur(36px) saturate(200%) brightness(0.95);
+            box-shadow:
+                var(--glass-shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+                inset 1px 0 0 rgba(255, 255, 255, 0.06),
+                inset -1px 0 0 rgba(255, 255, 255, 0.06),
+                0 0 0 0.5px rgba(255, 255, 255, 0.08),
+                0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        html.dark section::before {
+            background: conic-gradient(
+                from var(--prism-angle),
+                hsla(210, 90%, 75%, 0.6) 0deg,
+                hsla(260, 80%, 78%, 0.5) 60deg,
+                hsla(310, 55%, 75%, 0.35) 120deg,
+                hsla(210, 70%, 72%, 0.25) 180deg,
+                hsla(180, 80%, 74%, 0.4) 240deg,
+                hsla(240, 90%, 78%, 0.55) 300deg,
+                hsla(210, 90%, 75%, 0.6) 360deg
+            );
+        }
+
+        @keyframes prism-rotate {
+            to { --prism-angle: 360deg; }
+        }
+
+        section.visible { opacity: 1; transform: translateY(0); }
 
         h2 {
             font-size: 1.4rem;
             font-weight: 700;
-            margin-bottom: 30px;
-            color: #111;
+            margin-bottom: 24px;
+            color: var(--text-heading);
             letter-spacing: -0.5px;
         }
 
-        .item {
-            margin-bottom: 32px;
-        }
+        .item { margin-bottom: 29px; }
+        .item:last-child { margin-bottom: 0; }
 
-        .item:last-child {
-            margin-bottom: 0;
-        }
-
-        .item-flex {
-            display: flex;
-            gap: 16px;
-            align-items: flex-start;
-        }
+        .item-flex { display: flex; gap: 16px; align-items: flex-start; }
 
         .inst-logo {
             width: 54px;
             height: 54px;
             border-radius: 12px;
             object-fit: contain;
-            background-color: #fff;
-            border: 1px solid rgba(0,0,0,0.06);
+            background-color: var(--logo-bg);
+            border: 1px solid var(--logo-border);
             flex-shrink: 0;
             padding: 4px;
+            transition: background-color 0.4s ease, border-color 0.4s ease;
         }
 
-        .item-content {
-            flex: 1;
-            min-width: 0;
-        }
+        .item-content { flex: 1; min-width: 0; }
 
         .item-header {
             display: flex;
@@ -219,22 +400,19 @@
             align-items: baseline;
             margin-bottom: 4px;
         }
-
         .item-title {
             font-weight: 700;
             font-size: 1.1rem;
-            color: #111;
+            color: var(--text-heading);
             line-height: 1.4;
         }
-
         .item-subtitle {
             font-weight: 500;
-            color: #555;
+            color: var(--text-secondary);
             font-size: 0.95rem;
             margin-bottom: 4px;
         }
 
-        /* --- Inline Link Styles --- */
         .inline-link {
             color: inherit;
             text-decoration: none;
@@ -243,141 +421,81 @@
             align-items: center;
             gap: 3px;
         }
-        .inline-link:hover {
-            color: var(--accent-color);
-        }
-        .inline-link::after {
-            content: "↗";
-            font-size: 0.8em;
-            margin-top: -1px;
-        }
+        .inline-link:hover { color: var(--accent-color); }
+        .inline-link::after { content: "↗"; font-size: 0.8em; margin-top: -1px; }
 
         .item-date {
             font-size: 0.85rem;
-            color: #777;
+            color: var(--date-color);
             font-weight: 600;
             white-space: nowrap;
             margin-left: 15px;
-            background: rgba(0,0,0,0.04);
+            background: var(--date-bg);
             padding: 4px 10px;
             border-radius: 8px;
             align-self: flex-start;
+            transition: background 0.4s ease;
         }
 
         .item-desc {
             font-size: 0.95rem;
-            color: #444;
+            color: var(--text-primary);
             margin-top: 8px;
             line-height: 1.7;
         }
-
-        .item-desc ul {
-            padding-left: 20px;
-        }
-
-        .item-desc li {
-            margin-bottom: 6px;
-            padding-left: 5px;
-        }
-        
-        .item-desc li::marker {
-            color: var(--accent-color);
-            font-size: 0.9em;
-        }
-
-        .pub-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 15px;
-            margin-bottom: 6px;
-        }
+        .item-desc ul { padding-left: 20px; }
+        .item-desc li { margin-bottom: 6px; padding-left: 5px; }
+        .item-desc li::marker { color: var(--accent-color); font-size: 0.9em; }
 
         .pub-title {
             font-weight: 700;
-            color: #111;
+            color: var(--text-heading);
             font-size: 1.05rem;
             line-height: 1.45;
-            flex: 1;
+            margin-bottom: 6px;
         }
-        
         .pub-authors {
             font-size: 0.95rem;
-            color: #555;
+            color: var(--text-secondary);
             margin-bottom: 4px;
         }
-
         .pub-venue {
             font-size: 0.9rem;
-            color: #86868b;
+            color: var(--text-secondary);
             font-style: italic;
         }
-
-        .tag {
-            flex-shrink: 0;
-            display: inline-block;
-            background: rgba(0, 113, 227, 0.08);
-            color: var(--accent-color);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.75rem;
+        .pub-venue strong {
+            color: var(--text-heading);
             font-weight: 700;
-            white-space: nowrap;
-            margin-top: 2px;
         }
 
         .highlight-author {
             font-weight: 700;
-            color: #000;
-            border-bottom: 2px solid rgba(0, 113, 227, 0.4);
+            color: var(--text-heading);
+            border-bottom: 2px solid var(--highlight-border);
         }
 
-        .award-list {
-            list-style: none;
-        }
+        .award-list { list-style: none; }
         .award-item {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 16px;
+            margin-bottom: 10px;
             font-size: 0.95rem;
             align-items: center;
-            border-bottom: 1px dashed rgba(0,0,0,0.05);
-            padding-bottom: 12px;
+            border-bottom: 1px dashed var(--award-border);
+            padding-bottom: 8px;
+            transition: border-color 0.4s ease;
         }
-        .award-item:last-child {
-            border-bottom: none;
-        }
-        .award-name {
-            font-weight: 600;
-            color: #222;
-        }
-        .award-detail {
-            color: #666;
-            margin-left: 6px;
-            font-size: 0.9rem;
-        }
+        .award-item:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+        .award-name { font-weight: 600; color: var(--text-heading); }
+        .award-detail { color: var(--text-secondary); margin-left: 6px; font-size: 0.9rem; }
+        .award-date { font-size: 0.85rem; color: var(--date-color); font-weight: 600; white-space: nowrap; }
 
-        .skills-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .skill-pill {
-            background-color: rgba(255, 255, 255, 0.5);
-            border: 1px solid rgba(255, 255, 255, 1);
-            padding: 10px 18px;
-            border-radius: 24px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #333;
-        }
-        
         footer {
             text-align: center;
-            margin-top: 80px;
+            margin-top: 50px;
             font-size: 0.85rem;
-            color: #999;
+            color: var(--text-secondary);
             padding-bottom: 40px;
         }
 
@@ -385,34 +503,106 @@
             body { padding: 40px 15px; }
             section { padding: 25px; }
             header h1 { font-size: 2rem; }
-            
             .item-header { flex-direction: column; }
-            .item-date { 
-                margin-left: 0; 
-                margin-top: 6px; 
-                display: inline-block; 
-            }
-            
+            .item-date { margin-left: 0; margin-top: 6px; display: inline-block; }
             .award-item { flex-direction: column; align-items: flex-start; gap: 4px; }
             .award-detail { margin-left: 0; }
+        }
+
+        /* ── Hide default scrollbar ── */
+        html, body { scrollbar-width: none; -ms-overflow-style: none; }
+        html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
+        *::-webkit-scrollbar { display: none; }
+
+        /* ── Scroll Nav ── */
+        .scroll-nav {
+            position: fixed;
+            right: 28px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 90;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 14px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .scroll-nav.past-header { pointer-events: auto; }
+        .scroll-nav.show { opacity: 1; }
+        .scroll-nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-family: var(--font-family);
+            color: #999;
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.01em;
+            transition: color 0.3s ease;
+        }
+        html.dark .scroll-nav a { color: rgba(255, 255, 255, 0.7); }
+        .scroll-nav a:hover { opacity: 0.8; }
+        .scroll-nav a .nav-label {
+            white-space: nowrap;
+        }
+        .scroll-nav a .nav-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #999;
+            flex-shrink: 0;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        html.dark .scroll-nav a .nav-dot { background: rgba(255, 255, 255, 0.7); }
+        .scroll-nav a.active .nav-dot {
+            transform: scale(1.8);
+        }
+        .scroll-nav a.active { font-weight: 600; }
+
+        @media (max-width: 900px) {
+            .scroll-nav { display: none; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .aurora::before, .aurora::after, .aurora-layer, section::before { animation: none !important; }
         }
     </style>
 </head>
 <body>
 
-<div class="background-gradient"></div>
+<div class="aurora"><div class="aurora-layer"></div><div class="aurora-fade"></div></div>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+    <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+    </svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
+    </svg>
+</button>
+
+<nav class="scroll-nav" id="scrollNav">
+    <a href="#sec-pub"><span class="nav-label">Publications</span><span class="nav-dot"></span></a>
+    <a href="#sec-edu"><span class="nav-label">Education</span><span class="nav-dot"></span></a>
+    <a href="#sec-exp"><span class="nav-label">Experience</span><span class="nav-dot"></span></a>
+    <a href="#sec-proj"><span class="nav-label">Projects</span><span class="nav-dot"></span></a>
+    <a href="#sec-awards"><span class="nav-label">Awards</span><span class="nav-dot"></span></a>
+</nav>
 
 <div class="container">
-    
+
     <header id="main-header">
         <div class="profile-img-container">
-            <img src="https://media.licdn.com/dms/image/v2/D5603AQH3Wps6_hjeKA/profile-displayphoto-crop_800_800/B56ZksCdR6HcAI-/0/1757380466278?e=1767830400&v=beta&t=yKUtYMyQNE0OXLgh1FxFzvDj63JUAs1uPbnQFpDqCYQ" 
-                 alt="Kangmin Seo" 
+            <img src="assets/images/profile.jpeg"
+                 alt="Kangmin Seo"
                  class="profile-img">
         </div>
 
         <h1>Kangmin Seo</h1>
-        
+
         <div class="contact-info">
             <span>Suwon, South Korea</span>
             <span>•</span>
@@ -423,32 +613,45 @@
             <a href="https://github.com/kangrnin" target="_blank">GitHub</a>
         </div>
         <div class="bio-intro">
-            M.S. Candidate at <a href="https://sites.google.com/site/vclabskku" target="_blank" class="inline-link">Visual Computing Lab @ SKKU</a>,<br>
-            Focusing on <span class="bio-highlight">Efficient and Robust 3D Representations</span>.
+            M.S. Student at <a href="https://sites.google.com/site/vclabskku" target="_blank" class="inline-link">Visual Computing Lab @ SKKU</a>,<br>
+            Focusing on Efficient and Robust 3D Representations.
         </div>
     </header>
 
-    <section>
-        <h2>Publications & Manuscripts</h2>
-        
+    <section id="sec-pub">
+        <h2>Publications</h2>
+
         <div class="item">
-            <div class="pub-row">
-                <span class="pub-title">Diffusion Feature Field for Text-based 3D Editing with Gaussian Splatting</span>
-                <span class="tag">Published</span>
+            <div class="pub-title">Improving Sparse-View 3DGS Generalization via Flat Minima Optimization</div>
+            <div class="pub-authors">
+                <span class="highlight-author">Kangmin Seo</span>, Sangeek Hyun, MinKyu Lee, Jae-Pil Heo
             </div>
+            <div class="pub-venue">Preprint</div>
+        </div>
+
+        <div class="item">
+            <div class="pub-title">PDF-GS: Progressive Distractor Filtering for Robust 3D Gaussian Splatting</div>
+            <div class="pub-authors">
+                <span class="highlight-author">Kangmin Seo</span>, MinKyu Lee, Tae-Young Kim, ByeongCheol Lee, JoonSeoung An, Jae-Pil Heo
+            </div>
+            <div class="pub-venue">IEEE/CVF Conference on Computer Vision and Pattern Recognition (<strong>CVPR Findings</strong>), 2026</div>
+        </div>
+
+        <div class="item">
+            <div class="pub-title">Diffusion Feature Field for Text-based 3D Editing with Gaussian Splatting</div>
             <div class="pub-authors">
                 Eunseo Koh, Sangeek Hyun, MinKyu Lee, Jiwoo Chung, <span class="highlight-author">Kangmin Seo</span>, Jae-Pil Heo
             </div>
-            <div class="pub-venue">Neural Information Processing Systems (NeurIPS), 2025</div>
+            <div class="pub-venue">Neural Information Processing Systems (<strong>NeurIPS</strong>), 2025</div>
         </div>
     </section>
 
-    <section>
+    <section id="sec-edu">
         <h2>Education</h2>
-        
+
         <div class="item">
             <div class="item-flex">
-                <img src="https://media.licdn.com/dms/image/v2/C510BAQH9AIgSW2OIGA/company-logo_100_100/company-logo_100_100/0/1631378079166?e=1767830400&v=beta&t=sQ2aY5Lij2xqrR_LRfvGo6Wa_LuH9b9fY6bDvqS67g4" 
+                <img src="assets/images/logo-skku.png"
                      alt="SKKU Logo" class="inst-logo">
                 <div class="item-content">
                     <div class="item-header">
@@ -456,7 +659,7 @@
                         <span class="item-date">Sep. 2025 – Present</span>
                     </div>
                     <div class="item-subtitle">
-                        M.S. Candidate in Software<br>
+                        M.S. Student in Software<br>
                         At <a href="https://sites.google.com/site/vclabskku" target="_blank" class="inline-link">Visual Computing Lab (VCLab)</a>, Advisor: <a href="https://sites.google.com/site/jaepilheo" target="_blank" class="inline-link">Prof. Jae-Pil Heo</a>
                     </div>
                 </div>
@@ -465,7 +668,7 @@
 
         <div class="item">
             <div class="item-flex">
-                <img src="https://media.licdn.com/dms/image/v2/C510BAQH9AIgSW2OIGA/company-logo_100_100/company-logo_100_100/0/1631378079166?e=1767830400&v=beta&t=sQ2aY5Lij2xqrR_LRfvGo6Wa_LuH9b9fY6bDvqS67g4" 
+                <img src="assets/images/logo-skku.png"
                      alt="SKKU Logo" class="inst-logo">
                 <div class="item-content">
                     <div class="item-header">
@@ -482,7 +685,7 @@
 
         <div class="item">
             <div class="item-flex">
-                <img src="https://i.namu.wiki/i/sgED0gKwOeSEijLmO0ZrMrNEyUc-VR7l8qWqP2IH2-arz-GeOUTnyOoFSobCW1FTMkxJolBBuf4Wrd5VDszKeA.webp" 
+                <img src="assets/images/logo-kdmhs.png"
                      alt="Dimigo Logo" class="inst-logo">
                 <div class="item-content">
                     <div class="item-header">
@@ -495,12 +698,12 @@
         </div>
     </section>
 
-    <section>
+    <section id="sec-exp">
         <h2>Experience</h2>
 
         <div class="item">
             <div class="item-flex">
-                <img src="https://media.licdn.com/dms/image/v2/C510BAQH9AIgSW2OIGA/company-logo_100_100/company-logo_100_100/0/1631378079166?e=1767830400&v=beta&t=sQ2aY5Lij2xqrR_LRfvGo6Wa_LuH9b9fY6bDvqS67g4" 
+                <img src="assets/images/logo-skku.png"
                      alt="SKKU Logo" class="inst-logo">
                 <div class="item-content">
                     <div class="item-header">
@@ -508,7 +711,7 @@
                         <span class="item-date">Dec. 2024 – Present</span>
                     </div>
                     <div class="item-subtitle">
-                        M.S. Candidate (Advisor: <a href="https://sites.google.com/site/jaepilheo" target="_blank" class="inline-link">Prof. Jae-Pil Heo</a>) | Suwon, Korea
+                        M.S. Student (Advisor: <a href="https://sites.google.com/site/jaepilheo" target="_blank" class="inline-link">Prof. Jae-Pil Heo</a>) | Suwon, Korea
                     </div>
                     <div class="item-desc">
                         <ul>
@@ -521,7 +724,7 @@
 
         <div class="item">
             <div class="item-flex">
-                <img src="https://media.licdn.com/dms/image/v2/D560BAQH3lOPH-h1Hew/company-logo_100_100/company-logo_100_100/0/1734401187907/_kaist__logo?e=1767830400&v=beta&t=LKSYCVThjtSl8GHI5Cm6OGve76j9Jti8Jdf2xaX9K0k" 
+                <img src="assets/images/logo-kaist.png"
                      alt="KAIST Logo" class="inst-logo">
                 <div class="item-content">
                     <div class="item-header">
@@ -541,7 +744,7 @@
 
         <div class="item">
             <div class="item-flex">
-                <img src="https://media.licdn.com/dms/image/v2/D560BAQFoobmlkgDikw/company-logo_100_100/company-logo_100_100/0/1705459092157/rideflux_logo?e=1767830400&v=beta&t=l7eC0_Ep0Xi56h2KrM56J7nZ-O1ptZ4VrQ9WtkxWfhc" 
+                <img src="assets/images/logo-rideflux.webp"
                      alt="RideFlux Logo" class="inst-logo">
                 <div class="item-content">
                     <div class="item-header">
@@ -561,7 +764,7 @@
 
         <div class="item">
             <div class="item-flex">
-                <img src="https://media.licdn.com/dms/image/v2/D560BAQHjEYOY2HjZqA/company-logo_100_100/company-logo_100_100/0/1719130006364?e=1767830400&v=beta&t=ZxZDMJFfYzd6vp79-ZyAT0TvZRG9raoMVzETMOJ5gpI" 
+                <img src="assets/images/logo-airforce.png"
                      alt="Air Force Logo" class="inst-logo">
                 <div class="item-content">
                     <div class="item-header">
@@ -580,7 +783,7 @@
         </div>
     </section>
 
-    <section>
+    <section id="sec-proj">
         <h2>Selected Projects</h2>
 
         <div class="item">
@@ -594,7 +797,7 @@
                     <li>Developed a pipeline to reconstruct 3D room geometry from smartphone videos using NeRF and 3DGS.</li>
                     <li>Addressed distortion issues of 2D real estate photos by providing immersive 360-degree 3D views.</li>
                     <li>Implemented a client-side viewer for seamless exploration of reconstructed 3D scenes.</li>
-                    <li><strong>Awarded Grand Prize (President’s Award)</strong> at SKKU Co-Deep Learning Project.</li>
+                    <li><strong>Awarded Grand Prize (President's Award)</strong> at SKKU Co-Deep Learning Project.</li>
                 </ul>
             </div>
         </div>
@@ -614,11 +817,11 @@
         </div>
     </section>
 
-    <section>
+    <section id="sec-awards">
         <h2>Honors & Awards</h2>
-        
-        <div style="margin-bottom: 30px;">
-            <div class="item-title" style="margin-bottom: 15px; font-size: 1.05rem;">Scholarships</div>
+
+        <div style="margin-bottom: 20px;">
+            <div class="item-title" style="margin-bottom: 10px; font-size: 1.05rem;">Scholarships</div>
             <ul class="award-list">
                 <li class="award-item">
                     <span>
@@ -652,7 +855,7 @@
         </div>
 
         <div>
-            <div class="item-title" style="margin-bottom: 15px; font-size: 1.05rem;">Awards</div>
+            <div class="item-title" style="margin-bottom: 10px; font-size: 1.05rem;">Awards</div>
             <ul class="award-list">
                 <li class="award-item">
                     <span>
@@ -686,27 +889,11 @@
                     <span>
                         <span class="award-name">2022 Military AI Contest (MAICON)</span>
                         <span class="award-detail">– Grand Prize (Minister of Science and ICT Award)</span>
+                        <br><a href="https://www.aitimes.kr/news/articleView.html?idxno=26676" target="_blank" class="inline-link" style="font-size: 0.8rem;">aitimes.kr</a>
                     </span>
                     <span class="award-date">Nov. 2022</span>
                 </li>
             </ul>
-        </div>
-    </section>
-
-    <section>
-        <h2>Skills</h2>
-        <div class="skills-container">
-            <span class="skill-pill">PyTorch</span>
-            <span class="skill-pill">Unreal Engine</span>
-            <span class="skill-pill">Unity</span>
-            <span class="skill-pill">Python</span>
-            <span class="skill-pill">C++</span>
-            <span class="skill-pill">3D Gaussian Splatting</span>
-            <span class="skill-pill">NeRF</span>
-            <span class="skill-pill">Full-Stack Web</span>
-            <span class="skill-pill">Figma</span>
-            <span class="skill-pill">Korean (Native)</span>
-            <span class="skill-pill">English (Proficient)</span>
         </div>
     </section>
 
@@ -717,21 +904,26 @@
 </div>
 
 <script>
-    if (history.scrollRestoration) {
-        history.scrollRestoration = 'manual';
+    // Dark mode
+    const toggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') !== 'light') {
+        html.classList.add('dark');
     }
+
+    toggle.addEventListener('click', () => {
+        html.classList.toggle('dark');
+        localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+
+    // Scroll & load animations
+    if (history.scrollRestoration) history.scrollRestoration = 'manual';
 
     window.onload = function() {
         window.scrollTo(0, 0);
-        
         setTimeout(() => {
-            const header = document.getElementById('main-header');
-            header.classList.add('loaded');
-            
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: "0px 0px -50px 0px"
-            };
+            document.getElementById('main-header').classList.add('loaded');
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -740,14 +932,60 @@
                         observer.unobserve(entry.target);
                     }
                 });
-            }, observerOptions);
+            }, { threshold: 0.05, rootMargin: "0px 0px 80px 0px" });
 
-            const sections = document.querySelectorAll('section');
-            sections.forEach(section => {
-                observer.observe(section);
-            });
+            document.querySelectorAll('section').forEach(s => observer.observe(s));
         }, 100);
     };
+
+    // Scroll nav
+    (() => {
+        const nav = document.getElementById('scrollNav');
+        const links = nav.querySelectorAll('a');
+        const sections = Array.from(links).map(a => document.querySelector(a.getAttribute('href')));
+
+        // Track whether we're past the header
+        let pastHeader = false;
+        const showObserver = new IntersectionObserver(([e]) => {
+            pastHeader = !e.isIntersecting;
+            nav.classList.toggle('past-header', pastHeader);
+            if (!pastHeader) nav.classList.remove('show');
+        }, { threshold: 0 });
+        showObserver.observe(document.getElementById('main-header'));
+
+        // Show/hide nav on mouse near right edge
+        const HOVER_ZONE = 160;
+        document.addEventListener('mousemove', (e) => {
+            if (!pastHeader) return;
+            const fromRight = window.innerWidth - e.clientX;
+            nav.classList.toggle('show', fromRight <= HOVER_ZONE);
+        });
+        document.addEventListener('mouseleave', () => {
+            nav.classList.remove('show');
+        });
+
+        // Highlight active section
+        const secObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const idx = sections.indexOf(entry.target);
+                if (idx !== -1 && entry.isIntersecting) {
+                    links.forEach(l => l.classList.remove('active'));
+                    links[idx].classList.add('active');
+                }
+            });
+        }, { rootMargin: '-30% 0px -60% 0px' });
+        sections.forEach(s => { if (s) secObserver.observe(s); });
+
+        // Smooth scroll on click
+        links.forEach(a => {
+            a.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    })();
+
 </script>
 
 </body>
