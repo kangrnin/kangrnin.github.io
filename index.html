@@ -226,7 +226,7 @@
         .container {
             display: grid;
             gap: 30px;
-            max-width: 760px;
+            max-width: 820px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
@@ -456,6 +456,33 @@
         .item-desc li { margin-bottom: 6px; padding-left: 5px; }
         .item-desc li::marker { color: var(--accent-color); font-size: 0.9em; }
 
+        .pub-figure {
+            width: 120px;
+            height: 120px;
+            border-radius: 12px;
+            background-color: #fff;
+            border: 1px solid var(--logo-border);
+            flex-shrink: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            transition: border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+        html.dark .pub-figure {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.12);
+        }
+        .pub-figure img {
+            width: 170%;
+            height: 170%;
+            object-fit: contain;
+        }
+        .pub-figure.left { justify-content: flex-start; }
+        .pub-figure.left img { width: 340%; height: 340%; object-position: left; }
+
+        #sec-pub .item-flex { align-items: center; }
+
         .pub-title {
             font-weight: 700;
             color: var(--text-heading);
@@ -479,6 +506,7 @@
             gap: 12px;
             font-size: 0.85rem;
         }
+
         .pub-links a {
             color: var(--accent-color);
             text-decoration: none;
@@ -550,6 +578,8 @@
             .item-date { margin-left: 0; margin-top: 6px; display: inline-block; }
             .award-item { flex-direction: column; align-items: flex-start; gap: 4px; }
             .award-detail { margin-left: 0; }
+            .pub-figure { width: 100%; height: auto; aspect-ratio: 1/1; }
+            #sec-pub .item-flex { flex-direction: column; align-items: stretch; }
         }
 
         /* ── Hide default scrollbar ── */
@@ -665,38 +695,53 @@
         <h2>Publications</h2>
 
         <div class="item">
-            <span class="pub-badge preprint">Preprint</span>
-            <div class="pub-title">Improving Sparse-View 3DGS Generalization via Flat Minima Optimization</div>
-            <div class="pub-authors">
-                <span class="highlight-author">Kangmin Seo</span>, Sangeek Hyun, MinKyu Lee, Jae-Pil Heo
-            </div>
-            <div class="pub-venue">Preprint (Under Review)</div>
-        </div>
-
-        <div class="item">
-            <span class="pub-badge cvpr">CVPR Findings 2026</span>
-            <div class="pub-title">PDF-GS: Progressive Distractor Filtering for Robust 3D Gaussian Splatting</div>
-            <div class="pub-authors">
-                <span class="highlight-author">Kangmin Seo</span>, MinKyu Lee, Tae-Young Kim, ByeongCheol Lee, JoonSeoung An, Jae-Pil Heo
-            </div>
-            <div class="pub-venue">IEEE/CVF Conference on Computer Vision and Pattern Recognition (Findings), 2026</div>
-            <div class="pub-links">
-                <a href="https://arxiv.org/abs/2604.12580" target="_blank">arXiv</a>
-                <a href="https://kangrnin.github.io/PDF-GS" target="_blank">Project Page</a>
-                <a href="https://github.com/kangrnin/PDF-GS" target="_blank">Code</a>
+            <div class="item-flex">
+                <div class="pub-figure"><img src="assets/images/figure_FlatMinGS.png" alt="FlatMinGS figure"></div>
+                <div class="item-content">
+                    <span class="pub-badge preprint">Preprint</span>
+                    <div class="pub-title">Improving Sparse-View 3DGS Generalization via Flat Minima Optimization</div>
+                    <div class="pub-authors">
+                        <span class="highlight-author">Kangmin&nbsp;Seo</span>, Sangeek&nbsp;Hyun, MinKyu&nbsp;Lee, Jae&#8209;Pil&nbsp;Heo
+                    </div>
+                    <div class="pub-venue">Preprint (Under Review)</div>
+                </div>
             </div>
         </div>
 
         <div class="item">
-            <span class="pub-badge neurips">NeurIPS 2025</span>
-            <div class="pub-title">Diffusion Feature Field for Text-based 3D Editing with Gaussian Splatting</div>
-            <div class="pub-authors">
-                Eunseo Koh, Sangeek Hyun, MinKyu Lee, Jiwoo Chung, <span class="highlight-author">Kangmin Seo</span>, Jae-Pil Heo
+            <div class="item-flex">
+                <div class="pub-figure left"><img src="assets/images/figure_PDF-GS.png" alt="PDF-GS figure"></div>
+                <div class="item-content">
+                    <span class="pub-badge cvpr">CVPR Findings 2026</span>
+                    <div class="pub-title">PDF-GS: Progressive Distractor Filtering for Robust 3D Gaussian Splatting</div>
+                    <div class="pub-authors">
+                        <span class="highlight-author">Kangmin&nbsp;Seo</span>, MinKyu&nbsp;Lee, Tae&#8209;Young&nbsp;Kim, ByeongCheol&nbsp;Lee, JoonSeoung&nbsp;An, Jae&#8209;Pil&nbsp;Heo
+                    </div>
+                    <div class="pub-venue">IEEE/CVF Conference on Computer Vision and Pattern Recognition (Findings), 2026</div>
+                    <div class="pub-links">
+                        <a href="https://arxiv.org/abs/2604.12580" target="_blank">arXiv</a>
+                        <a href="https://kangrnin.github.io/PDF-GS" target="_blank">Project Page</a>
+                        <a href="https://github.com/kangrnin/PDF-GS" target="_blank">Code</a>
+                    </div>
+                </div>
             </div>
-            <div class="pub-venue">Neural Information Processing Systems, 2025</div>
-            <div class="pub-links">
-                <a href="https://neurips.cc/virtual/2025/loc/san-diego/poster/118619" target="_blank">NeurIPS</a>
-                <a href="https://openreview.net/forum?id=Kf9eNbp4wy" target="_blank">OpenReview</a>
+        </div>
+
+        <div class="item">
+            <div class="item-flex">
+                <div class="pub-figure"><img src="assets/images/figure_DFFSplat.png" alt="DFFSplat figure"></div>
+                <div class="item-content">
+                    <span class="pub-badge neurips">NeurIPS 2025</span>
+                    <div class="pub-title">Diffusion Feature Field for Text-based 3D Editing with Gaussian Splatting</div>
+                    <div class="pub-authors">
+                        Eunseo&nbsp;Koh, Sangeek&nbsp;Hyun, MinKyu&nbsp;Lee, Jiwoo&nbsp;Chung, <span class="highlight-author">Kangmin&nbsp;Seo</span>, Jae&#8209;Pil&nbsp;Heo
+                    </div>
+                    <div class="pub-venue">Neural Information Processing Systems, 2025</div>
+                    <div class="pub-links">
+                        <a href="https://neurips.cc/virtual/2025/loc/san-diego/poster/118619" target="_blank">NeurIPS</a>
+                        <a href="https://openreview.net/forum?id=Kf9eNbp4wy" target="_blank">OpenReview</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
