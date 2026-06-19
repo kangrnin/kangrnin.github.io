@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQNLDNKL06"></script>
@@ -193,34 +193,6 @@
             80%  { transform: translate(-6%, 6%) rotate(-3deg) scale(0.98); }
             100% { transform: translate(0%, 0%) rotate(0deg) scale(1); }
         }
-
-        /* ── Toggle Button ── */
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 28px;
-            z-index: 100;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 1px solid var(--toggle-border);
-            background: var(--toggle-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--toggle-color);
-            transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-        }
-        .theme-toggle:hover { transform: scale(1.1); }
-        .theme-toggle svg { width: 18px; height: 18px; fill: currentColor; }
-        .icon-sun { stroke: currentColor; }
-        .icon-moon { display: none; }
-        html.dark .icon-sun  { display: none; }
-        html.dark .icon-moon { display: block; }
 
         /* ── Layout ── */
         .container {
@@ -591,57 +563,6 @@
         html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
         *::-webkit-scrollbar { display: none; }
 
-        /* ── Scroll Nav ── */
-        .scroll-nav {
-            position: fixed;
-            right: 28px;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 90;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 14px;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        .scroll-nav.past-header { pointer-events: auto; }
-        .scroll-nav.show { opacity: 1; }
-        .scroll-nav a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            font-family: var(--font-family);
-            color: #999;
-            font-size: 0.75rem;
-            font-weight: 400;
-            letter-spacing: 0.01em;
-            transition: color 0.3s ease;
-        }
-        html.dark .scroll-nav a { color: rgba(255, 255, 255, 0.7); }
-        .scroll-nav a:hover { opacity: 0.8; }
-        .scroll-nav a .nav-label {
-            white-space: nowrap;
-        }
-        .scroll-nav a .nav-dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: #999;
-            flex-shrink: 0;
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        html.dark .scroll-nav a .nav-dot { background: rgba(255, 255, 255, 0.7); }
-        .scroll-nav a.active .nav-dot {
-            transform: scale(1.8);
-        }
-        .scroll-nav a.active { font-weight: 600; }
-
-        @media (max-width: 900px) {
-            .scroll-nav { display: none; }
-        }
-
         @media (prefers-reduced-motion: reduce) {
             .aurora::before, .aurora::after, .aurora-layer, section::before { animation: none !important; }
         }
@@ -651,23 +572,6 @@
 
 <div class="aurora"><div class="aurora-layer"></div><div class="aurora-fade"></div></div>
 
-<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
-    <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="12" cy="12" r="4"/>
-        <path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
-    </svg>
-    <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
-    </svg>
-</button>
-
-<nav class="scroll-nav" id="scrollNav">
-    <a href="#sec-pub"><span class="nav-label">Publications</span><span class="nav-dot"></span></a>
-    <a href="#sec-edu"><span class="nav-label">Education</span><span class="nav-dot"></span></a>
-    <a href="#sec-exp"><span class="nav-label">Experience</span><span class="nav-dot"></span></a>
-    <a href="#sec-proj"><span class="nav-label">Projects</span><span class="nav-dot"></span></a>
-    <a href="#sec-awards"><span class="nav-label">Awards</span><span class="nav-dot"></span></a>
-</nav>
 
 <div class="container">
 
@@ -1003,19 +907,6 @@
 </div>
 
 <script>
-    // Dark mode
-    const toggle = document.getElementById('themeToggle');
-    const html = document.documentElement;
-
-    if (localStorage.getItem('theme') !== 'light') {
-        html.classList.add('dark');
-    }
-
-    toggle.addEventListener('click', () => {
-        html.classList.toggle('dark');
-        localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
-    });
-
     // Scroll & load animations
     if (history.scrollRestoration) history.scrollRestoration = 'manual';
 
@@ -1037,53 +928,6 @@
         }, 100);
     };
 
-    // Scroll nav
-    (() => {
-        const nav = document.getElementById('scrollNav');
-        const links = nav.querySelectorAll('a');
-        const sections = Array.from(links).map(a => document.querySelector(a.getAttribute('href')));
-
-        // Track whether we're past the header
-        let pastHeader = false;
-        const showObserver = new IntersectionObserver(([e]) => {
-            pastHeader = !e.isIntersecting;
-            nav.classList.toggle('past-header', pastHeader);
-            if (!pastHeader) nav.classList.remove('show');
-        }, { threshold: 0 });
-        showObserver.observe(document.getElementById('main-header'));
-
-        // Show/hide nav on mouse near right edge
-        const HOVER_ZONE = 160;
-        document.addEventListener('mousemove', (e) => {
-            if (!pastHeader) return;
-            const fromRight = window.innerWidth - e.clientX;
-            nav.classList.toggle('show', fromRight <= HOVER_ZONE);
-        });
-        document.addEventListener('mouseleave', () => {
-            nav.classList.remove('show');
-        });
-
-        // Highlight active section
-        const secObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                const idx = sections.indexOf(entry.target);
-                if (idx !== -1 && entry.isIntersecting) {
-                    links.forEach(l => l.classList.remove('active'));
-                    links[idx].classList.add('active');
-                }
-            });
-        }, { rootMargin: '-30% 0px -60% 0px' });
-        sections.forEach(s => { if (s) secObserver.observe(s); });
-
-        // Smooth scroll on click
-        links.forEach(a => {
-            a.addEventListener('click', (e) => {
-                e.preventDefault();
-                const target = document.querySelector(a.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-        });
-    })();
 
 </script>
 
