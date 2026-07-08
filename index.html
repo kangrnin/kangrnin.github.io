@@ -53,7 +53,7 @@
         }
 
         html.dark {
-            --bg-color: #08080f;
+            --bg-color: #10111c;
             --text-primary: #e8e8f0;
             --text-secondary: #8888a8;
             --text-heading: #f2f2f8;
@@ -63,8 +63,8 @@
             --glass-bg: rgba(16, 16, 28, 0.65);
             --glass-border: rgba(255, 255, 255, 0.09);
             --glass-shadow: 0 4px 28px 0 rgba(0, 0, 0, 0.35);
-            --logo-bg: rgba(255, 255, 255, 0.12);
-            --logo-border: rgba(255, 255, 255, 0.15);
+            --logo-bg: rgba(238, 242, 250, 0.90);
+            --logo-border: rgba(108, 139, 220, 0.44);
             --date-bg: rgba(255, 255, 255, 0.07);
             --date-color: #7878a0;
             --award-border: rgba(255, 255, 255, 0.06);
@@ -367,10 +367,11 @@
             border-radius: 12px;
             object-fit: contain;
             background-color: var(--logo-bg);
-            border: 1px solid var(--logo-border);
+            border: 1.5px solid var(--logo-border);
+            box-shadow: 0 0 0 1px rgba(90, 171, 255, 0.20), 0 6px 18px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.42);
             flex-shrink: 0;
             padding: 4px;
-            transition: background-color 0.4s ease, border-color 0.4s ease;
+            transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
         }
 
         .item-content { flex: 1; min-width: 0; }
@@ -758,7 +759,7 @@
 
         <div class="item">
             <div class="item-flex">
-                <img src="assets/images/logo-rideflux.webp"
+                <img src="assets/images/logo-rideflux.svg"
                      alt="RideFlux Logo" class="inst-logo">
                 <div class="item-content">
                     <div class="item-header">
@@ -781,7 +782,7 @@
                      alt="Air Force Logo" class="inst-logo">
                 <div class="item-content">
                     <div class="item-header">
-                        <span class="item-title">Republic of Korea Air Force</span>
+                        <span class="item-title">Air Force Intelligent Information Systems Management Group,<br>Republic of Korea Air Force HQ</span>
                         <span class="item-date">May 2021 – Dec. 2022</span>
                     </div>
                     <div class="item-subtitle">3D/VR System Engineer (Military Service) | Daejeon, Korea</div>
