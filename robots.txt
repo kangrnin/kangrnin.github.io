@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kangrnin.github.io/sitemap.xml
